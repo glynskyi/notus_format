@@ -30,7 +30,7 @@ jobs:
         run: pub global activate coverage
 
       - name: Run tests
-        run: pub run test test/rxdart_test.dart
+        run: pub run test test/
 
       - name: Start Observatory
         run: dart
@@ -38,7 +38,7 @@ jobs:
           --enable-vm-service=8111
           --pause-isolates-on-exit
           --enable-asserts
-          test/rxdart_test.dart &
+          test/ &
 
       - name: Collect coverage
         run: nohup pub global run coverage:collect_coverage
