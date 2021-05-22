@@ -1,0 +1,1 @@
+**Notus** is a rich text document model for [Zefyrka][] project.
