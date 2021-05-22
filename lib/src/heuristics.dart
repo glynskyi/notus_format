@@ -70,7 +70,8 @@ class NotusHeuristics {
 
   /// Applies heuristic rules to specified format operation based on current
   /// state of Notus [document].
-  Delta applyFormatRules(NotusDocument document, int index, int length, NotusAttribute value) {
+  Delta applyFormatRules(
+      NotusDocument document, int index, int length, NotusAttribute value) {
     final delta = document.toDelta();
     for (var rule in formatRules!) {
       final result = rule.apply(delta, index, length, value);

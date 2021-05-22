@@ -7,7 +7,8 @@ class NotusMarkdownCodec extends Codec<Delta, String> {
   const NotusMarkdownCodec();
 
   @override
-  Converter<String, Delta> get decoder => throw UnimplementedError('Decoding is not implemented yet.');
+  Converter<String, Delta> get decoder =>
+      throw UnimplementedError('Decoding is not implemented yet.');
 
   @override
   Converter<Delta, String> get encoder => _NotusMarkdownEncoder();
@@ -56,7 +57,8 @@ class _NotusMarkdownEncoder extends Converter<Delta, String> {
 
     void _handleSpan(String? text, Map<String, dynamic>? attributes) {
       final style = NotusStyle.fromJson(attributes);
-      currentInlineStyle = _writeInline(lineBuffer, text, style, currentInlineStyle);
+      currentInlineStyle =
+          _writeInline(lineBuffer, text, style, currentInlineStyle);
     }
 
     void _handleLine(Map<String, dynamic>? attributes) {
@@ -126,7 +128,8 @@ class _NotusMarkdownEncoder extends Converter<Delta, String> {
     return ' ' * (text.length - result.length);
   }
 
-  NotusStyle _writeInline(StringBuffer buffer, String? text, NotusStyle style, NotusStyle currentStyle) {
+  NotusStyle _writeInline(StringBuffer buffer, String? text, NotusStyle style,
+      NotusStyle currentStyle) {
     // First close any current styles if needed
     for (var value in currentStyle.values) {
       if (value.scope == NotusAttributeScope.line) continue;
@@ -150,17 +153,20 @@ class _NotusMarkdownEncoder extends Converter<Delta, String> {
     return style;
   }
 
-  void _writeAttribute(StringBuffer buffer, NotusAttribute? attribute, {bool close = false}) {
+  void _writeAttribute(StringBuffer buffer, NotusAttribute? attribute,
+      {bool close = false}) {
     if (attribute == NotusAttribute.bold) {
       _writeBoldTag(buffer);
     } else if (attribute == NotusAttribute.italic) {
       _writeItalicTag(buffer);
     } else if (attribute!.key == NotusAttribute.link.key) {
-      _writeLinkTag(buffer, attribute as NotusAttribute<String?>?, close: close);
+      _writeLinkTag(buffer, attribute as NotusAttribute<String?>?,
+          close: close);
     } else if (attribute.key == NotusAttribute.heading.key) {
       _writeHeadingTag(buffer, attribute as NotusAttribute<int?>);
     } else if (attribute.key == NotusAttribute.block.key) {
-      _writeBlockTag(buffer, attribute as NotusAttribute<String?>?, close: close);
+      _writeBlockTag(buffer, attribute as NotusAttribute<String?>?,
+          close: close);
     } else {
       throw ArgumentError('Cannot handle $attribute');
     }
@@ -174,7 +180,8 @@ class _NotusMarkdownEncoder extends Converter<Delta, String> {
     buffer.write(kItalic);
   }
 
-  void _writeLinkTag(StringBuffer buffer, NotusAttribute<String?>? link, {bool close = false}) {
+  void _writeLinkTag(StringBuffer buffer, NotusAttribute<String?>? link,
+      {bool close = false}) {
     if (close) {
       buffer.write('](${link!.value})');
     } else {
@@ -187,7 +194,8 @@ class _NotusMarkdownEncoder extends Converter<Delta, String> {
     buffer.write('#' * level + ' ');
   }
 
-  void _writeBlockTag(StringBuffer buffer, NotusAttribute<String?>? block, {bool close = false}) {
+  void _writeBlockTag(StringBuffer buffer, NotusAttribute<String?>? block,
+      {bool close = false}) {
     if (block == NotusAttribute.code) {
       if (close) {
         buffer.write('\n```');

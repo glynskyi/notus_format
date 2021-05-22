@@ -17,7 +17,8 @@ class ResolveLineFormatRule extends FormatRule {
   const ResolveLineFormatRule() : super();
 
   @override
-  Delta? apply(Delta document, int index, int length, NotusAttribute attribute) {
+  Delta? apply(
+      Delta document, int index, int length, NotusAttribute attribute) {
     if (attribute.scope != NotusAttributeScope.line) return null;
 
     var result = Delta()..retain(index);
@@ -74,7 +75,8 @@ class ResolveInlineFormatRule extends FormatRule {
   const ResolveInlineFormatRule();
 
   @override
-  Delta? apply(Delta document, int index, int length, NotusAttribute attribute) {
+  Delta? apply(
+      Delta document, int index, int length, NotusAttribute attribute) {
     if (attribute.scope != NotusAttributeScope.inline) return null;
 
     final result = Delta()..retain(index);
@@ -111,7 +113,8 @@ class FormatLinkAtCaretPositionRule extends FormatRule {
   const FormatLinkAtCaretPositionRule();
 
   @override
-  Delta? apply(Delta document, int index, int length, NotusAttribute attribute) {
+  Delta? apply(
+      Delta document, int index, int length, NotusAttribute attribute) {
     if (attribute.key != NotusAttribute.link.key) return null;
     // If user selection is not collapsed we let it fallback to default rule
     // which simply applies the attribute to selected range.

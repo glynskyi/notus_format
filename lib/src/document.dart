@@ -67,7 +67,8 @@ class NotusDocument {
   /// Stream of [NotusChange]s applied to this document.
   Stream<NotusChange> get changes => _controller.stream;
 
-  final StreamController<NotusChange> _controller = StreamController.broadcast();
+  final StreamController<NotusChange> _controller =
+      StreamController.broadcast();
 
   /// Returns contents of this document as [Delta].
   Delta toDelta() => Delta.from(_delta);
@@ -142,7 +143,8 @@ class NotusDocument {
 
     final dataIsNotEmpty = (data is String) ? data.isNotEmpty : true;
 
-    assert(index >= 0 && (dataIsNotEmpty || length > 0), 'With index $index, length $length and text "$data"');
+    assert(index >= 0 && (dataIsNotEmpty || length > 0),
+        'With index $index, length $length and text "$data"');
 
     var delta = Delta();
 
@@ -173,7 +175,8 @@ class NotusDocument {
 
     var change = Delta();
 
-    final formatChange = _heuristics.applyFormatRules(this, index, length, attribute);
+    final formatChange =
+        _heuristics.applyFormatRules(this, index, length, attribute);
     if (formatChange.isNotEmpty) {
       compose(formatChange, ChangeSource.local);
       change = change.compose(formatChange);
@@ -226,7 +229,8 @@ class NotusDocument {
     final before = toDelta();
     change = _migrateDelta(change);
     for (final op in change.toList()) {
-      final attributes = op.attributes != null ? NotusStyle.fromJson(op.attributes) : null;
+      final attributes =
+          op.attributes != null ? NotusStyle.fromJson(op.attributes) : null;
       if (op.isInsert) {
         // Must normalize data before inserting into the document, makes sure
         // that any embedded objects are converted into EmbeddableObject type.
@@ -259,7 +263,8 @@ class NotusDocument {
   //
 
   void _checkMutable() {
-    assert(!_controller.isClosed, 'Cannot modify Notus document after it was closed.');
+    assert(!_controller.isClosed,
+        'Cannot modify Notus document after it was closed.');
   }
 
   /// Key of the embed attribute used in Notus 0.x (prior to 1.0).
@@ -302,19 +307,24 @@ class NotusDocument {
         'Invalid document delta. Document delta must always end with a line-break.');
     var offset = 0;
     for (final op in doc.toList()) {
-      final style = op.attributes != null ? NotusStyle.fromJson(op.attributes) : null;
+      final style =
+          op.attributes != null ? NotusStyle.fromJson(op.attributes) : null;
       if (op.isInsert) {
         final data = _normalizeData(op.data);
         _root.insert(offset, data, style);
       } else {
-        throw ArgumentError.value(doc, 'Document Delta can only contain insert operations but ${op.key} found.');
+        throw ArgumentError.value(doc,
+            'Document Delta can only contain insert operations but ${op.key} found.');
       }
       offset += op.length;
     }
     // Must remove last line if it's empty and with no styles.
     // TODO: find a way for DocumentRoot to not create extra line when composing initial delta.
     final node = _root.last;
-    if (node is LineNode && node.parent is! BlockNode && node.style.isEmpty && _root.childCount > 1) {
+    if (node is LineNode &&
+        node.parent is! BlockNode &&
+        node.style.isEmpty &&
+        _root.childCount > 1) {
       _root.remove(node);
     }
   }

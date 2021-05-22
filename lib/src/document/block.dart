@@ -8,7 +8,9 @@ import 'node.dart';
 /// style.
 ///
 /// Block examples: lists, quotes, code snippets.
-class BlockNode extends ContainerNode<LineNode> with StyledNodeMixin implements StyledNode {
+class BlockNode extends ContainerNode<LineNode>
+    with StyledNodeMixin
+    implements StyledNode {
   /// Creates new unmounted [BlockNode] with the same attributes.
   BlockNode clone() {
     final node = BlockNode();
@@ -49,7 +51,9 @@ class BlockNode extends ContainerNode<LineNode> with StyledNodeMixin implements 
   @override
   Delta toDelta() {
     // Line nodes take care of incorporating block style into their delta.
-    return children.map((child) => child.toDelta()).fold(Delta(), (a, b) => a.concat(b));
+    return children
+        .map((child) => child.toDelta())
+        .fold(Delta(), (a, b) => a.concat(b));
   }
 
   @override

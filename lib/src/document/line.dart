@@ -15,7 +15,9 @@ import 'node.dart';
 ///
 /// When a line contains an embed, it fully occupies the line, no other embeds
 /// or text nodes are allowed.
-class LineNode extends ContainerNode<LeafNode> with StyledNodeMixin implements StyledNode {
+class LineNode extends ContainerNode<LeafNode>
+    with StyledNodeMixin
+    implements StyledNode {
   /// Returns `true` if this line contains an embedded object.
   bool get hasEmbed {
     if (childCount == 1) {
@@ -30,14 +32,17 @@ class LineNode extends ContainerNode<LeafNode> with StyledNodeMixin implements S
     if (isLast) {
       if (parent is BlockNode) {
         if (parent!.isLast) return null;
-        LineNode? line =
-            (parent!.next is BlockNode) ? (parent!.next as BlockNode).first as LineNode? : parent!.next as LineNode?;
+        LineNode? line = (parent!.next is BlockNode)
+            ? (parent!.next as BlockNode).first as LineNode?
+            : parent!.next as LineNode?;
         return line;
       } else {
         return null;
       }
     } else {
-      LineNode? line = (next is BlockNode) ? (next as BlockNode).first as LineNode? : next as LineNode?;
+      LineNode? line = (next is BlockNode)
+          ? (next as BlockNode).first as LineNode?
+          : next as LineNode?;
       return line;
     }
   }
@@ -159,7 +164,9 @@ class LineNode extends ContainerNode<LeafNode> with StyledNodeMixin implements S
 
   @override
   Delta toDelta() {
-    final delta = children.map((child) => child.toDelta()).fold(Delta(), (dynamic a, b) => a.concat(b));
+    final delta = children
+        .map((child) => child.toDelta())
+        .fold(Delta(), (dynamic a, b) => a.concat(b));
     var attributes = style;
     if (parent is BlockNode) {
       BlockNode block = parent as BlockNode;
@@ -234,13 +241,16 @@ class LineNode extends ContainerNode<LeafNode> with StyledNodeMixin implements S
     final isLineFormat = (index + local == thisLength) && local == 1;
 
     if (isLineFormat) {
-      assert(style.values.every((attr) => attr.scope == NotusAttributeScope.line),
+      assert(
+          style.values.every((attr) => attr.scope == NotusAttributeScope.line),
           'It is not allowed to apply inline attributes to line itself.');
       _formatAndOptimize(style);
     } else {
       // Otherwise forward to children as it's an inline format update.
-      assert(index + local != thisLength, 'It is not allowed to apply inline attributes to line itself.');
-      assert(style.values.every((attr) => attr.scope == NotusAttributeScope.inline));
+      assert(index + local != thisLength,
+          'It is not allowed to apply inline attributes to line itself.');
+      assert(style.values
+          .every((attr) => attr.scope == NotusAttributeScope.inline));
       super.retain(index, local, style);
     }
 

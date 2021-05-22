@@ -133,7 +133,8 @@ class ResetLineFormatOnNewLineRule extends InsertRule {
 
     if (targetText.startsWith('\n')) {
       Map<String, dynamic>? resetStyle;
-      if (target.attributes != null && target.attributes!.containsKey(NotusAttribute.heading.key)) {
+      if (target.attributes != null &&
+          target.attributes!.containsKey(NotusAttribute.heading.key)) {
         resetStyle = NotusAttribute.heading.unset.toJson();
       }
       return Delta()
@@ -158,7 +159,8 @@ class AutoExitBlockRule extends InsertRule {
   bool isEmptyLine(Operation? before, Operation after) {
     final textBefore = before?.data is String ? before!.data as String? : '';
     final textAfter = after.data is String ? after.data as String? : '';
-    return (before == null || textBefore!.endsWith('\n')) && textAfter!.startsWith('\n');
+    return (before == null || textBefore!.endsWith('\n')) &&
+        textAfter!.startsWith('\n');
   }
 
   @override
@@ -171,7 +173,8 @@ class AutoExitBlockRule extends InsertRule {
     final iter = DeltaIterator(document);
     final previous = iter.skip(index);
     final target = iter.next();
-    final isInBlock = target.isNotPlain && target.attributes!.containsKey(NotusAttribute.block.key);
+    final isInBlock = target.isNotPlain &&
+        target.attributes!.containsKey(NotusAttribute.block.key);
 
     // We are not in a block, ignore.
     if (!isInBlock) return null;
@@ -185,8 +188,8 @@ class AutoExitBlockRule extends InsertRule {
     // First check if `target` length is greater than 1, this would indicate
     // that it contains multiple newline characters which share the same style.
     // This would mean we are not on the last line yet.
-    final targetText =
-        target.value as String; // this is safe since we already called isEmptyLine and know it contains a newline
+    final targetText = target.value
+        as String; // this is safe since we already called isEmptyLine and know it contains a newline
 
     if (targetText.length > 1) {
       // We are not on the last line of this block, ignore.
@@ -231,11 +234,13 @@ class PreserveInlineStylesRule extends InsertRule {
     // styles. Also if there is no previous operation we are at the beginning
     // of the document so no styles to inherit from.
     if (previous == null) return null;
-    final previousText = previous.data is String ? (previous.data as String?)! : '';
+    final previousText =
+        previous.data is String ? (previous.data as String?)! : '';
     if (previousText.contains('\n')) return null;
 
     final attributes = previous.attributes;
-    final hasLink = (attributes != null && attributes.containsKey(NotusAttribute.link.key));
+    final hasLink =
+        (attributes != null && attributes.containsKey(NotusAttribute.link.key));
     if (!hasLink) {
       return Delta()
         ..retain(index)
@@ -256,7 +261,8 @@ class PreserveInlineStylesRule extends InsertRule {
       return noLinkResult;
     }
     // We must make sure links are identical in previous and next operations.
-    if (attributes![NotusAttribute.link.key] == nextAttributes[NotusAttribute.link.key]) {
+    if (attributes![NotusAttribute.link.key] ==
+        nextAttributes[NotusAttribute.link.key]) {
       return Delta()
         ..retain(index)
         ..insert(text, attributes);
@@ -300,7 +306,8 @@ class AutoFormatLinksRule extends InsertRule {
       // Do nothing if already formatted as link.
       if (attributes.containsKey(NotusAttribute.link.key)) return null;
 
-      attributes.addAll(NotusAttribute.link.fromString(link.toString()).toJson());
+      attributes
+          .addAll(NotusAttribute.link.fromString(link.toString()).toJson());
       return Delta()
         ..retain(index - candidate.length)
         ..retain(candidate.length, attributes)
@@ -383,7 +390,9 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
     // Are we currently in a block? If not then ignore.
     if (!lineStyle.containsKey(NotusAttribute.block.key)) return null;
 
-    final blockStyle = <String, dynamic>{NotusAttribute.block.key: lineStyle[NotusAttribute.block.key]};
+    final blockStyle = <String, dynamic>{
+      NotusAttribute.block.key: lineStyle[NotusAttribute.block.key]
+    };
 
     Map<String, dynamic>? resetStyle;
     // If current line had heading style applied to it we'll need to move this
@@ -437,7 +446,8 @@ class InsertEmbedsRule extends InsertRule {
     final target = iter.next();
 
     // Check if [index] is on an empty line already.
-    final textBefore = previous?.data is String ? previous!.data as String? : '';
+    final textBefore =
+        previous?.data is String ? previous!.data as String? : '';
     final textAfter = target.data is String ? (target.data as String?)! : '';
 
     final isNewlineBefore = previous == null || textBefore!.endsWith('\n');
@@ -460,8 +470,10 @@ class InsertEmbedsRule extends InsertRule {
     return result;
   }
 
-  Map<String, dynamic>? _getLineStyle(DeltaIterator iterator, Operation current) {
-    final currentText = current.data is String ? (current.data as String?)! : '';
+  Map<String, dynamic>? _getLineStyle(
+      DeltaIterator iterator, Operation current) {
+    final currentText =
+        current.data is String ? (current.data as String?)! : '';
 
     if (currentText.contains('\n')) {
       return current.attributes;

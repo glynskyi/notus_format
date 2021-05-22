@@ -24,7 +24,7 @@ jobs:
         run: dartanalyzer --fatal-infos --fatal-warnings ./lib
 
       - name: Format code
-        run: dartfmt -n ./lib --set-exit-if-changed
+        run: dart format -o none --set-exit-if-changed ./lib
 
       - name: Active coverage
         run: pub global activate coverage

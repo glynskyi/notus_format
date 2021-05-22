@@ -56,7 +56,9 @@ class EmbeddableObject {
     if (identical(this, other)) return true;
     if (other is! EmbeddableObject) return false;
     final typedOther = other;
-    return typedOther.type == type && typedOther.inline == inline && _dataEquality.equals(typedOther._data, _data);
+    return typedOther.type == type &&
+        typedOther.inline == inline &&
+        _dataEquality.equals(typedOther._data, _data);
   }
 
   @override
@@ -110,5 +112,6 @@ class BlockEmbed extends EmbeddableObject {
   }) : super(type, inline: false, data: data);
 
   static final BlockEmbed horizontalRule = BlockEmbed('hr');
-  static BlockEmbed image(String source) => BlockEmbed('image', data: {'source': source});
+  static BlockEmbed image(String source) =>
+      BlockEmbed('image', data: {'source': source});
 }

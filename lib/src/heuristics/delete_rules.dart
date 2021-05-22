@@ -66,7 +66,8 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
 
   Map<String, dynamic>? _unsetAttributes(Map<String, dynamic>? attributes) {
     if (attributes == null) return null;
-    return attributes.map<String, dynamic>((String key, dynamic value) => MapEntry<String, dynamic>(key, null));
+    return attributes.map<String, dynamic>(
+        (String key, dynamic value) => MapEntry<String, dynamic>(key, null));
   }
 }
 

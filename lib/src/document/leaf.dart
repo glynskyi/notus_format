@@ -8,7 +8,9 @@ import 'line.dart';
 import 'node.dart';
 
 /// A leaf node in Notus document tree.
-abstract class LeafNode extends Node with StyledNodeMixin implements StyledNode {
+abstract class LeafNode extends Node
+    with StyledNodeMixin
+    implements StyledNode {
   /// Creates a new [LeafNode] with specified [data].
   LeafNode._(Object data) : _value = data;
 
@@ -107,7 +109,8 @@ abstract class LeafNode extends Node with StyledNodeMixin implements StyledNode 
 
   @override
   void applyStyle(NotusStyle value) {
-    assert(value.isInline || value.isEmpty, 'Style cannot be applied to this leaf node: $value');
+    assert(value.isInline || value.isEmpty,
+        'Style cannot be applied to this leaf node: $value');
     super.applyStyle(value);
   }
 
@@ -124,13 +127,16 @@ abstract class LeafNode extends Node with StyledNodeMixin implements StyledNode 
 
   @override
   Delta toDelta() {
-    final data = _value is EmbeddableObject ? (_value as EmbeddableObject).toJson() : _value;
+    final data = _value is EmbeddableObject
+        ? (_value as EmbeddableObject).toJson()
+        : _value;
     return Delta()..insert(data, style.toJson());
   }
 
   @override
   void insert(int index, Object data, NotusStyle? style) {
-    assert(index >= 0 && (index <= length), 'Index out of bounds. Must be between 0 and $length, but got $index.');
+    assert(index >= 0 && (index <= length),
+        'Index out of bounds. Must be between 0 and $length, but got $index.');
     final node = LeafNode(data);
     if (index == length) {
       insertAfter(node);
