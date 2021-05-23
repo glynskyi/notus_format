@@ -1,3 +1,7 @@
+## 1.0.1
+
+* `NotusAttributeBuilder.withValue` accepts `null`
+
 ## 1.0.0
 
-*  Initial version
+*  initial version
