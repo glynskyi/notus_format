@@ -35,27 +35,26 @@ class NotusChange {
 /// A rich text document.
 class NotusDocument {
   /// Creates new empty Notus document.
-  NotusDocument()
-      : _heuristics = NotusHeuristics.fallback,
-        _delta = Delta()..insert('\n') {
+  NotusDocument({this.heuristics = NotusHeuristics.fallback})
+      : _delta = Delta()..insert('\n') {
     _loadDocument(_delta);
   }
 
   /// Creates new NotusDocument from provided JSON `data`.
-  NotusDocument.fromJson(List data)
-      : _heuristics = NotusHeuristics.fallback,
-        _delta = _migrateDelta(Delta.fromJson(data)) {
+  NotusDocument.fromJson(List data,
+      {this.heuristics = NotusHeuristics.fallback})
+      : _delta = _migrateDelta(Delta.fromJson(data)) {
     _loadDocument(_delta);
   }
 
   /// Creates new NotusDocument from provided `delta`.
-  NotusDocument.fromDelta(Delta delta)
-      : _heuristics = NotusHeuristics.fallback,
-        _delta = _migrateDelta(delta) {
+  NotusDocument.fromDelta(Delta delta,
+      {this.heuristics = NotusHeuristics.fallback})
+      : _delta = _migrateDelta(delta) {
     _loadDocument(_delta);
   }
 
-  final NotusHeuristics _heuristics;
+  final NotusHeuristics heuristics;
 
   /// The root node of this document tree.
   RootNode get root => _root;
@@ -110,7 +109,7 @@ class NotusDocument {
       data = (data as EmbeddableObject).toJson();
     }
 
-    final change = _heuristics.applyInsertRules(this, index, data);
+    final change = heuristics.applyInsertRules(this, index, data);
     compose(change, ChangeSource.local);
     return change;
   }
@@ -124,7 +123,7 @@ class NotusDocument {
   Delta delete(int index, int length) {
     assert(index >= 0 && length > 0);
     // TODO: need a heuristic rule to ensure last line-break.
-    final change = _heuristics.applyDeleteRules(this, index, length);
+    final change = heuristics.applyDeleteRules(this, index, length);
     if (change.isNotEmpty) {
       // Delete rules are allowed to prevent the edit so it may be empty.
       compose(change, ChangeSource.local);
@@ -176,7 +175,7 @@ class NotusDocument {
     var change = Delta();
 
     final formatChange =
-        _heuristics.applyFormatRules(this, index, length, attribute);
+        heuristics.applyFormatRules(this, index, length, attribute);
     if (formatChange.isNotEmpty) {
       compose(formatChange, ChangeSource.local);
       change = change.compose(formatChange);
