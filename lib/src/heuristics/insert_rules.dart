@@ -364,9 +364,9 @@ class PreserveBlockStyleOnInsertRule extends InsertRule {
 
   bool isEdgeLineSplit(Operation? before, Operation after) {
     if (before == null) return true; // split at the beginning of a doc
-    final textBefore = before.data is String ? (before.data as String?)! : '';
-    final textAfter = after.data is String ? after.data as String? : '';
-    return textBefore.endsWith('\n') || textAfter!.startsWith('\n');
+    final textBefore = before.data is String ? before.data as String : '';
+    final textAfter = after.data is String ? after.data as String : '';
+    return textBefore.endsWith('\n') || textAfter.startsWith('\n');
   }
 
   @override

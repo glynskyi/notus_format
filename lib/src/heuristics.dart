@@ -43,25 +43,25 @@ class NotusHeuristics {
   );
 
   const NotusHeuristics({
-    this.formatRules,
-    this.insertRules,
-    this.deleteRules,
+    this.formatRules = const [],
+    this.insertRules = const [],
+    this.deleteRules = const [],
   });
 
   /// List of format rules in this registry.
-  final List<FormatRule>? formatRules;
+  final List<FormatRule> formatRules;
 
   /// List of insert rules in this registry.
-  final List<InsertRule>? insertRules;
+  final List<InsertRule> insertRules;
 
   /// List of delete rules in this registry.
-  final List<DeleteRule>? deleteRules;
+  final List<DeleteRule> deleteRules;
 
   /// Applies heuristic rules to specified insert operation based on current
   /// state of Notus [document].
   Delta applyInsertRules(NotusDocument document, int index, Object data) {
     final delta = document.toDelta();
-    for (var rule in insertRules!) {
+    for (var rule in insertRules) {
       final result = rule.apply(delta, index, data);
       if (result != null) return result..trim();
     }
@@ -73,7 +73,7 @@ class NotusHeuristics {
   Delta applyFormatRules(
       NotusDocument document, int index, int length, NotusAttribute value) {
     final delta = document.toDelta();
-    for (var rule in formatRules!) {
+    for (var rule in formatRules) {
       final result = rule.apply(delta, index, length, value);
       if (result != null) return result..trim();
     }
@@ -84,7 +84,7 @@ class NotusHeuristics {
   /// state of Notus [document].
   Delta applyDeleteRules(NotusDocument document, int index, int length) {
     final delta = document.toDelta();
-    for (var rule in deleteRules!) {
+    for (var rule in deleteRules) {
       final result = rule.apply(delta, index, length);
       if (result != null) return result..trim();
     }
