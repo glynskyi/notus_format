@@ -2,6 +2,8 @@
 
 * allows custom heuristic rules 
 * adds the null safety improvements
+* removes `meta` package from dependencies
+
 ## 1.0.1
 
 * `NotusAttributeBuilder.withValue` accepts `null`

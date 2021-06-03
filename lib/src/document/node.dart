@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:meta/meta.dart';
 import 'package:quill_format/quill_format.dart';
 
 import 'attributes.dart';
@@ -64,7 +63,6 @@ abstract class Node extends LinkedListEntry<Node> {
   /// Optimize this node within [parent].
   ///
   /// Subclasses should override this method to perform necessary optimizations.
-  @protected
   void optimize();
 
   /// Returns [Delta] representation of this node.
