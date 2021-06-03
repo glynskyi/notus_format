@@ -1,6 +1,6 @@
 name: notus_format
 description: Platform-agnostic rich text document model based on Delta format and used in Zefyrka editor.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/glynskyi/notus_format
 
 environment:
