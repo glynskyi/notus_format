@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:quill_format/quill_format.dart';
 
 const _dataEquality = DeepCollectionEquality();
 

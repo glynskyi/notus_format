@@ -1,3 +1,7 @@
+## 1.0.3
+
+* removes `quiver_hashcode` package from dependencies
+
 ## 1.0.2
 
 * allows custom heuristic rules 

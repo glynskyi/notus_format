@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:quiver_hashcode/hashcode.dart';
+import 'package:quill_format/quill_format.dart';
 
 /// Scope of a style attribute, defines context in which an attribute can be
 /// applied.
